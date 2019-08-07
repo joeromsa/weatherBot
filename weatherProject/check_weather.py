@@ -2,12 +2,12 @@ import requests
 import json
 from twilio.rest import Client
 
-#converts kelvin to farenheight
+#Converts kelvin to farenheight.
 def k_to_f(temp):
     temp = (temp * 1.8) - 459.67
     return temp
 
-#returns how strong the wind is blowing
+#Takes the numerical representation of how strong the wind is and returns it as a string. 
 def wind_type(wind):
     if wind <= 1:
         return 'calm'
@@ -20,7 +20,7 @@ def wind_type(wind):
     else:
         return 'extremely strong wind'
 
-#calculates average wind speed
+#Calculates average wind speed between 10am and 10pm. 
 def ave_wind_num(wind_list):
     total = 0
     for item in wind_list[1:5]:
@@ -28,7 +28,7 @@ def ave_wind_num(wind_list):
     
     return round(total / 5)
 
-#checks if it will be raining between 10AM - 10PM
+#Checks if it will be raining between 10AM - 10PM.
 def need_rain_jacket():
     if weather_desc[1] == 'light rain' or weather_desc[2] == 'light rain' or weather_desc[3] == 'light rain' or weather_desc[4] == 'light rain' or weather_desc[5] == 'light rain':
         return ''
@@ -37,14 +37,14 @@ def need_rain_jacket():
     else:
         return ''
 
-#api calls and auth for messages
-client = Client("AC4bd1af401aa44d524e5656eff2b52ce2","c3d1e23677346bc7c09e08e0c4d39b01")
+#Api calls and auth for messages.
+client = Client("*****","*****")
 response = requests.get('https://api.openweathermap.org/data/2.5/forecast?zip=68059,us&appid=935e4c109dfacaa7bc30b5876146626a')
 current = requests.get('https://api.openweathermap.org/data/2.5/weather?zip=68059,us&appid=935e4c109dfacaa7bc30b5876146626a')
 data = response.json()
 current_data = current.json()
 
-#lists and variables to hold data
+#Lists and variables to hold data.
 current_temp = k_to_f(current_data['main']['temp'])
 current_weather_main = current_data['weather'][0]['main']
 current_weather_description = current_data['weather'][0]['description']
@@ -55,7 +55,7 @@ weather_main = []
 weather_desc = []
 wind = []
 
-#strings to build the message with
+#Strings to build the message with.
 intro = '\nGood Morning Joe\nHere is your Forecast for the Day\n\n'
 now = 'Current Temp: '
 degrees = ' degrees F\n'
@@ -67,7 +67,7 @@ seven = '\n7 PM: '
 tenpm = '\n10 PM: '
 close = '\n\nHave a Great Day'
 
-#loops to put weather data in lists
+#Loops to put weather data in lists.
 for obj in data['list']:
     temp.append(obj['main']['temp'])
     time.append(obj['dt_txt'])
@@ -78,10 +78,10 @@ for obj in data['list']:
         weather_main.append(x['main'])
         weather_desc.append(x['description'])
 
-#finding average wind for the day
+#Finding average wind for the day.
 wind_ave = ave_wind_num(wind)
 wind_text = wind_type(wind_ave)
 
 msg = intro + now + str(round(current_temp)) + degrees + weather + current_weather_description + ', ' + wind_text + need_rain_jacket() + tenam + str(round(k_to_f(temp[1]))) + ' F' + one + str(round(k_to_f(temp[2]))) + ' F' + four + str(round(k_to_f(temp[3]))) + ' F' + seven + str(round(k_to_f(temp[4]))) + ' F' + tenpm + str(round(k_to_f(temp[5]))) + ' F' + close
 
-client.messages.create(to="+14028850351", from_="+15313018912", body=msg)
+client.messages.create(to="+*****", from_="+*****", body=msg)
