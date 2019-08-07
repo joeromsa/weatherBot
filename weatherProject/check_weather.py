@@ -39,8 +39,8 @@ def need_rain_jacket():
 
 #Api calls and auth for messages.
 client = Client("*****","*****")
-response = requests.get('https://api.openweathermap.org/data/2.5/forecast?zip=68059,us&appid=935e4c109dfacaa7bc30b5876146626a')
-current = requests.get('https://api.openweathermap.org/data/2.5/weather?zip=68059,us&appid=935e4c109dfacaa7bc30b5876146626a')
+response = requests.get('https://api.openweathermap.org/data/2.5/forecast?zip=*****,us&appid=*****')
+current = requests.get('https://api.openweathermap.org/data/2.5/weather?zip=*****,us&appid=*****')
 data = response.json()
 current_data = current.json()
 
